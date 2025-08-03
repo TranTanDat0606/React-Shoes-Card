@@ -1,14 +1,17 @@
 import OurProduct from "./components/OurProduct";
 import YourCard from "./components/YourCard";
+import { ShoesCardContextProvider } from "./context/ShoesCardContext";
 import "./index.css";
 
 export default function App() {
   return (
     <div className="mainContent">
-      <OurProduct />
+      <ShoesCardContextProvider>
+        <OurProduct />
 
-      {/* cart */}
-      <YourCard />
+        {/* cart */}
+        <YourCard />
+      </ShoesCardContextProvider>
     </div>
   );
 }

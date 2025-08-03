@@ -1,48 +1,40 @@
 import Typography from "./Typography";
-import Image from "./image";
+import Image from "./Image";
 import Button from "./Button";
+import { productList } from "../data/productList";
+import { useShoesCardContext } from "../context/ShoesCardContext";
 
 function OurProduct() {
+  const { addCardItem } = useShoesCardContext();
+
   return (
     <div className="card">
       <div className="cardTop">
-        <img alt="" src="https://cdn-icons-png.flaticon.com/512/732/732084.png" />
+        <Image src="https://cdn-icons-png.flaticon.com/512/732/732084.png" />
       </div>
 
       <div className="cardTitle">Our Products</div>
-
       <div className="cardBody">
-        <div className="shopItem">
-          <div className="shopItem_image" style={{ backgroundColor: "rgb(212, 215, 214)" }}>
-            <Image src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1315882/air-zoom-pegasus-36-mens-running-shoe-wide-D24Mcz-removebg-preview.png" />
-          </div>
-          <div className="shopItem_name">Nike Air Zoom Pegasus 36</div>
-          <Typography
-            text="The iconic Nike Air Zoom Pegasus 36 offers more cooling and mesh that targets breathability across
-              high-heat areas. A slimmer heel collar and tongue reduce bulk, while exposed cables give you a snug fit at
-              higher speeds."
-          />
+        {productList.map((product) => (
+          <div key={product.id} className="shopItem">
+            <div
+              className="shopItem_image"
+              style={{
+                backgroundColor: product.id === 1 ? "rgb(212, 215, 214)" : "rgb(34, 175, 220)",
+              }}
+            >
+              <Image src={`${product.image}`} />
+            </div>
 
-          <div className="shopItem_bottom">
-            <div className="shopItem_price">$108.97</div>
-            <Button buttonText="ADD TO CARD" />
+            <div className="shopItem_name">{product.title}</div>
+            <Typography text={`${product.desc}`} />
+
+            <div className="shopItem_bottom">
+              <div className="shopItem_price">{`$${product.price}`}</div>
+              <Button buttonText="ADD TO CARD" onClick={() => addCardItem(product)} />
+            </div>
           </div>
-        </div>
-        <div className="shopItem">
-          <div className="shopItem_image" style={{ backgroundColor: "rgb(34, 175, 220)" }}>
-            <Image src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1315882/air-zoom-pegasus-36-mens-running-shoe-wide-D24Mcz-removebg-preview.png" />
-          </div>
-          <div className="shopItem_name">Nike Air Zoom Pegasus 36</div>
-          <Typography
-            text="The iconic Nike Air Zoom Pegasus 36 offers more cooling and mesh that targets breathability across
-              high-heat areas. A slimmer heel collar and tongue reduce bulk, while exposed cables give you a snug fit at
-              higher speeds."
-          />
-          <div className="shopItem_bottom">
-            <div className="shopItem_price">$108.97</div>
-            <Button buttonText="ADD TO CARD" />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
