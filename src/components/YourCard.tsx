@@ -4,7 +4,7 @@ import Button from "./Button";
 import Image from "./Image";
 
 function YourCard() {
-  const { card, removeCardItem } = useShoesCardContext();
+  const { card, removeCardItem, HandleChangeProduct } = useShoesCardContext();
 
   const totalQuantity = card.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = card.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -18,7 +18,7 @@ function YourCard() {
 
       <div className="cardTitle">
         <span>Your cart</span>
-        <span className="card_amount">{totalPrice}</span>
+        <span className="card_amount">{FormatUSD(totalPrice)}</span>
       </div>
 
       <div className="cardBody">
@@ -37,9 +37,19 @@ function YourCard() {
                 <div className="cardItem_price">{FormatUSD(item.price * item.quantity)}</div>
                 <div className="cartItem_actions">
                   <div className="cartItem_count">
-                    <div className="cartItem_button">-</div>
+                    <div
+                      className="cartItem_button"
+                      onClick={() => HandleChangeProduct({ card: item, type: "decrease" })}
+                    >
+                      -
+                    </div>
                     <div className="cartItem_number">{item.quantity}</div>
-                    <div className="cartItem_button">+</div>
+                    <div
+                      className="cartItem_button"
+                      onClick={() => HandleChangeProduct({ card: item, type: "increase" })}
+                    >
+                      +
+                    </div>
                   </div>
 
                   <Button

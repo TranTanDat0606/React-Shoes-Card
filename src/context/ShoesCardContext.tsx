@@ -8,16 +8,23 @@ interface IShoesCard {
   quantity: number;
 }
 
+interface IOperator {
+  card: IShoesCard;
+  type: "increase" | "decrease";
+}
+
 interface IShoesCardContext {
   card: IShoesCard[];
   addCardItem: (item: IShoesCard) => void;
   removeCardItem: (cardItemId: number) => void;
+  HandleChangeProduct: (cardOperator: IOperator) => void;
 }
 
 export const ShoesCardContext = React.createContext<IShoesCardContext>({
   card: [],
   addCardItem: () => {},
   removeCardItem: () => {},
+  HandleChangeProduct: () => {},
 });
 
 export const ShoesCardContextProvider = ({ children }: React.PropsWithChildren) => {
@@ -43,12 +50,27 @@ export const ShoesCardContextProvider = ({ children }: React.PropsWithChildren) 
     });
   };
 
+  const HandleChangeProduct = ({ card, type }: IOperator) => {
+    if (type === "decrease" && card.quantity === 1) {
+      removeCardItem(card.id);
+      return;
+    }
+
+    setCard((prevState) =>
+      prevState.map((cardItem) =>
+        cardItem.id === card.id
+          ? { ...cardItem, quantity: type === "increase" ? cardItem.quantity + 1 : cardItem.quantity - 1 }
+          : cardItem
+      )
+    );
+  };
   return (
     <ShoesCardContext.Provider
       value={{
         card,
         addCardItem,
         removeCardItem,
+        HandleChangeProduct,
       }}
     >
       {children}
