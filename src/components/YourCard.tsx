@@ -26,7 +26,7 @@ function YourCard() {
           <p>Không có sản phẩm nào trong giỏ.</p>
         ) : (
           card.map((item) => (
-            <div className="cardItem">
+            <div key={item.id} className="cardItem">
               <div className="cardItem_left">
                 <div className="cardItem_image">
                   <Image src={`${item.image}`} />
